@@ -7,15 +7,6 @@ SSH_PORT="22"  # Default SSH port
 
 echo "[+] Starting security hardening script..."
 
-# Change all user passwords to a strong random one
-echo "[+] Changing passwords..."
-for user in $(awk -F: '$3 >= 1000 {print $1}' /etc/passwd); do
-    if [[ ! " ${AUTHORIZED_USERS[@]} " =~ " ${user} " ]]; then
-        NEW_PASS=$(openssl rand -base64 32)
-        echo "$user:$NEW_PASS" | sudo chpasswd
-        echo "[!] Password changed for: $user"
-    fi
-done
 
 # Remove unauthorized users
 echo "[+] Checking for unauthorized users..."
